@@ -9,12 +9,21 @@ export interface CreateEmployeePayload {
   role: "admin" | "employee"
 }
 
+export interface EmployeeContact {
+  email: string | null
+  phone: string | null
+}
+
 export async function getProfiles(params: { roles?: string[] } = {}) {
   return httpClient.get<Profile[]>(
     withQuery("/users", {
       roles: params.roles?.join(","),
     }),
   )
+}
+
+export async function getEmployeeContact() {
+  return httpClient.get<EmployeeContact>("/users/employee-contact")
 }
 
 export async function updateUserRole(userId: string, role: string) {

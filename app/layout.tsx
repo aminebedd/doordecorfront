@@ -10,6 +10,11 @@ export const metadata: Metadata = {
   title: "Door & Decor - Premium Modern Doors",
   description:
     "Shop premium modern doors with custom colors, handles, and dimensions. Ready-made and custom doors for your home.",
+  icons: {
+    icon: "/images/logo.png",
+    shortcut: "/images/logo.png",
+    apple: "/images/logo.png",
+  },
 }
 
 export const viewport: Viewport = {

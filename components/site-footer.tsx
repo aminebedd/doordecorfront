@@ -2,10 +2,29 @@
 
 import Link from "next/link"
 import Image from "next/image"
+import { useEffect, useState } from "react"
 import { useTranslation } from "@/lib/i18n/client"
+import { getEmployeeContact, type EmployeeContact } from "@/services/users.service"
 
 export function SiteFooter() {
   const { t } = useTranslation()
+  const [contact, setContact] = useState<EmployeeContact | null>(null)
+
+  useEffect(() => {
+    let mounted = true
+
+    void getEmployeeContact()
+      .then((data) => {
+        if (mounted) setContact(data)
+      })
+      .catch(() => {
+        if (mounted) setContact({ email: null, phone: null })
+      })
+
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   return (
     <footer className="border-t border-border bg-card">
@@ -38,9 +57,11 @@ export function SiteFooter() {
               {t("footer.contact")}
             </h4>
             <p className="text-sm text-muted-foreground">
-              {t("footer.emailLabel")} info@doordecor.dz
+              {t("footer.emailLabel")} <span dir="ltr">{contact?.email || "-"}</span>
             </p>
-            <p className="text-sm text-muted-foreground">{t("footer.phoneLabel")} 0555-123456</p>
+            <p className="text-sm text-muted-foreground">
+              {t("footer.phoneLabel")} <span dir="ltr">{contact?.phone || "-"}</span>
+            </p>
           </div>
         </div>
         <div className="mt-8 border-t border-border pt-6 text-center text-sm text-muted-foreground">
